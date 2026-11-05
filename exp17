@@ -1,0 +1,67 @@
+import pandas as pd
+import re
+import matplotlib.pyplot as plt
+from collections import Counter
+
+# Load CSV dataset
+df = pd.read_csv("exp17dataset.csv")
+
+# Extract text data
+text_data = df['Gender'].dropna()
+
+# Combine all text
+text = " ".join(text_data.astype(str))
+
+# Convert to lowercase
+text = text.lower()
+
+# Remove punctuation and numbers
+text = re.sub(r'[^a-z\s]', '', text)
+
+# Split text into words
+words = text.split()
+
+# Define stop words
+stop_words = {
+    'the', 'and', 'is', 'are', 'was', 'were',
+    'a', 'an', 'in', 'on', 'of', 'to', 'for',
+    'with', 'it', 'this', 'that', 'has', 'have'
+}
+
+# Remove stop words
+filtered_words = [
+    word for word in words if word not in stop_words
+]
+
+# Calculate word frequency
+word_frequency = Counter(filtered_words)
+
+# Get N from user
+N = int(input("Enter the number of top words (N): "))
+
+# Display top N words
+top_words = word_frequency.most_common(N)
+
+print("\nTop", N, "Most Frequent Words")
+print("--------------------------------")
+
+for word, frequency in top_words:
+    print(word, ":", frequency)
+
+# Plot bar graph
+if top_words:
+    words = [item[0] for item in top_words]
+    frequencies = [item[1] for item in top_words]
+
+    plt.figure(figsize=(8, 5))
+    plt.bar(words, frequencies)
+
+    plt.xlabel("Words")
+    plt.ylabel("Frequency")
+    plt.title("Top N Most Frequent Words")
+
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+else:
+    print("No words available for plotting.")

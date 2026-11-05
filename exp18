@@ -1,0 +1,83 @@
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+
+# Create Dataset
+data = {
+    'age': [23, 23, 27, 27, 30, 41, 47, 49, 50,
+            52, 54, 54, 56, 57, 58, 58, 60, 61],
+
+    '%fat': [9.5, 26.5, 7.8, 17.8, 31.4, 25.9,
+             27.4, 27.2, 31.2, 34.6, 42.5, 28.8,
+             33.4, 30.2, 34.1, 32.9, 41.2, 35.7]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Display Dataset
+print("\nAGE AND BODY FAT DATASET")
+print(df)
+
+# Calculate Mean
+print("\nMEAN:")
+print(df.mean())
+
+# Calculate Median
+print("\nMEDIAN:")
+print(df.median())
+
+# Calculate Standard Deviation
+print("\nSTANDARD DEVIATION:")
+print(df.std())
+
+# Create a single window for all graphs
+plt.figure(figsize=(12, 9))
+
+# 1. Boxplot
+plt.subplot(2, 2, 1)
+
+plt.boxplot([df['age'], df['%fat']],
+            tick_labels=['Age', 'Body Fat'])
+
+plt.title("Boxplot of Age and Body Fat")
+plt.ylabel("Values")
+
+# 2. Scatter Plot
+plt.subplot(2, 2, 2)
+
+plt.scatter(df['age'], df['%fat'])
+
+plt.xlabel("Age")
+plt.ylabel("Body Fat (%)")
+plt.title("Scatter Plot of Age vs Body Fat")
+plt.grid()
+
+# 3. Q-Q Plot for Age
+plt.subplot(2, 2, 3)
+
+stats.probplot(df['age'], dist="norm", plot=plt)
+
+plt.title("Q-Q Plot of Age")
+
+# 4. Q-Q Plot for Body Fat
+plt.subplot(2, 2, 4)
+
+stats.probplot(df['%fat'], dist="norm", plot=plt)
+
+plt.title("Q-Q Plot of Body Fat")
+
+# Adjust graph spacing
+plt.tight_layout()
+
+# Display all graphs together
+# Save all graphs as an image
+plt.tight_layout()
+plt.savefig("exp18_graphs.png")
+
+print("\nGraphs saved successfully!")
+print("Program executed successfully!")
+
+print("\nProgram executed successfully!")

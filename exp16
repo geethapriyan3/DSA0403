@@ -1,0 +1,44 @@
+import pandas as pd
+import re
+from collections import Counter
+
+# Import the CSV dataset
+df = pd.read_csv("exp16dataset.csv")
+
+# Extract text from the dataset
+text_data = df['text'].dropna()
+
+# Combine all text into one string
+all_text = " ".join(text_data)
+
+# Convert text into lowercase
+all_text = all_text.lower()
+
+# Remove special characters and numbers
+all_text = re.sub(r'[^a-z\s]', '', all_text)
+
+# Split text into individual words
+words = all_text.split()
+
+# Calculate word frequency
+word_frequency = Counter(words)
+
+# Display word frequency
+print("WORD FREQUENCY DISTRIBUTION")
+print("--------------------------------")
+
+for word, frequency in word_frequency.most_common(20):
+    print(word, ":", frequency)
+
+# Convert frequency into DataFrame
+result = pd.DataFrame(
+    word_frequency.most_common(),
+    columns=['Word', 'Frequency']
+)
+
+# Save the result into a CSV file
+result.to_csv("word_frequency.csv", index=False)
+
+print("\nTotal words:", len(words))
+print("Unique words:", len(word_frequency))
+print("\nWord frequency saved successfully!")
