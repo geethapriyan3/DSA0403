@@ -1,0 +1,9 @@
+
+import pandas as pd
+
+df = pd.read_csv("exp15dataset.csv")
+
+frequency = df["AvgTemperature"].value_counts()
+
+print("Frequency Distribution of Temperature:")
+print(frequency)
